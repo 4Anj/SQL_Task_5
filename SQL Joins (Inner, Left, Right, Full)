@@ -1,0 +1,51 @@
+create ShopDM;
+use ShopDM;
+
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    CustomerName VARCHAR(100),
+    Country VARCHAR(50)
+);
+
+INSERT INTO Customers VALUES(1, 'Alice', 'India');
+INSERT INTO Customers VALUES(2, 'Bob', 'USA');
+INSERT INTO Customers VALUES(3, 'Charlie', 'UK');
+INSERT INTO Customers VALUES(4, 'Diana', 'India');
+
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    OrderAmount DECIMAL(10,2),
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+);
+
+INSERT INTO Orders VALUES(101, 1, 500.00);
+INSERT INTO Orders VALUES(102, 2, 300.00);
+INSERT INTO Orders VALUES(103, 3, 700.00);
+INSERT INTO Orders VALUES(104, 4, 400.00);
+
+--inner join
+SELECT C.CustomerName, O.OrderID, O.OrderAmount
+FROM Customers C
+INNER JOIN Orders o ON C.CustomerID = O.CustomerID;
+
+--left join
+SELECT C.CustomerID, O.OrderID, O.OrderAmount
+FROM Customers C
+left JOIN Orders o ON C.CustomerID = O.CustomerID;
+
+--right join
+SELECT C.CustomerName, c.CustomerID, O.OrderID, O.OrderAmount
+FROM Customers c
+RIGHT JOIN Orders o ON C.CustomerID = O.CustomerID;
+
+--full join
+SELECT C.CustomerName, c.country, o.OrderID, O.OrderAmount
+FROM Customers c
+LEFT JOIN Orders o ON C.CustomerID = O.CustomerID
+
+UNION
+
+SELECT C.CustomerName, c.country,  O.OrderID, O.OrderAmount
+FROM Customers c
+RIGHT JOIN Orders o ON C.CustomerID = O.CustomerID;
